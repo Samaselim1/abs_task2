@@ -1,0 +1,213 @@
+import 'package:flutter/material.dart';
+
+class WebPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Header(),
+            HeroSection(),
+            ProductGrid(),
+            Footer(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Header extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+      color: Colors.black,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Mining Co.",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Row(
+            children: ["Home", "About", "Products", "Contact Us"]
+                .map(
+                  (e) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  e,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+            )
+                .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class HeroSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          height: 400,
+          child: Image.asset(
+            'assets/images/hero_image.jpg', // Use a local asset
+            width: double.infinity,
+            height: 400,
+            fit: BoxFit.cover,
+          ),
+        ),
+        Positioned.fill(
+          child: Container(
+            color: Colors.black.withOpacity(0.6),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Discover The Foundation Of Excellence In Mining",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text("Discover"),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    backgroundColor: Colors.orange,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ProductGrid extends StatelessWidget {
+  final List<Map<String, String>> products = [
+    {"title": "Silica Sand", "image": "assets/images/silica_sand.png"},
+    {"title": "Silica Flour", "image": "assets/images/silica_flour.png"},
+    {"title": "Salt", "image": "assets/images/salt.png"},
+    {"title": "Gypsum", "image": "assets/images/gypsum.png"},
+    {"title": "Calcium Carbonate", "image": "assets/images/calcium_carbonate.png"},
+    {"title": "Flint Pebbles", "image": "assets/images/flint_pebbles.png"},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            "Products",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 20),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: MediaQuery.of(context).size.width > 800 ? 3 : 2,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
+            ),
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              return ProductCard(
+                title: products[index]["title"]!,
+                imageUrl: products[index]["image"]!,
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ProductCard extends StatelessWidget {
+  final String title;
+  final String imageUrl;
+
+  const ProductCard({required this.title, required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: Image.asset(imageUrl, fit: BoxFit.cover),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 10),
+                ElevatedButton(onPressed: () {}, child: Text("Read More")),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Footer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black,
+      padding: EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Mining Co.",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            "© 2024 All rights reserved",
+            style: TextStyle(color: Colors.white),
+          ),
+        ],
+      ),
+    );
+  }
+}
